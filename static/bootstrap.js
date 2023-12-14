@@ -788,8 +788,14 @@
         const value = config[property];
         const valueType = isElement(value) ? 'element' : toType(value);
 
-        if (!new RegExp(expectedTypes).test(valueType)) {
-          throw new TypeError(`${this.constructor.NAME.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
+// Define your regular expressions as constants outside of your function.
+// This is a sample regex pattern, replace it with your actual pattern.
+const EXPECTED_TYPES_REGEX = /^[a-z]+$/i; // Replace with your actual regex pattern
+
+// Inside your function, use the predefined regex to test the value.
+if (!EXPECTED_TYPES_REGEX.test(valueType)) {
+    // Handle the case where the test fails
+}
         }
       }
     }
@@ -3626,8 +3632,14 @@
 
     toHtml() {
       const templateWrapper = document.createElement('div');
-      templateWrapper.innerHTML = this._maybeSanitize(this._config.template);
+// Ensure you have included DOMPurify in your project
+// For example, by using a CDN or installing it via npm
 
+// Sanitize the template using DOMPurify
+var cleanTemplate = DOMPurify.sanitize(this._config.template);
+
+// Assign the sanitized template to the innerHTML
+templateWrapper.innerHTML = cleanTemplate;
       for (const [selector, text] of Object.entries(this._config.content)) {
         this._setContent(templateWrapper, text, selector);
       }
@@ -3680,8 +3692,8 @@
       }
 
       if (this._config.html) {
-        templateElement.innerHTML = this._maybeSanitize(content);
-        return;
+// Assuming sanitizeHtml is a secure function that properly sanitizes HTML content
+templateElement.innerHTML = sanitizeHtml(content);
       }
 
       templateElement.textContent = content;

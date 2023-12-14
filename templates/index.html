@@ -38,5 +38,16 @@
 {% endblock %}
 
 {% block scripts %}
+{% block scripts %}
+<script type="application/json" id="teleprompter-config">
+    {{ config|json_script:"teleprompter-config" }}
+</script>
 <script src="{{url_for('.static', filename='teleprompter.js')}}"></script>
+<script>
+    // Retrieve the JSON data from the element with the specified ID
+    var configElement = document.getElementById('teleprompter-config');
+    var config = JSON.parse(configElement.textContent);
+
+    // Now you can use the `config` variable in your JavaScript code safely
+</script>
 {% endblock %}
