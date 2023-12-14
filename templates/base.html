@@ -12,14 +12,26 @@
          Bootstrap-Dark Variant CSS -->
     <link href="{{url_for('.static', filename='bootstrap-night.css')}}" rel="stylesheet">
 
-
     <link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}">
     {% block styles %}{% endblock %}
   </head>
   <body>
     {% block navbar %}{% endblock %}
     {% block content %}{% endblock %}
-    <script src="{{url_for('.static', filename='jquery-3.6.2.js')}}"></script>
+
+    <!-- Use json_script to safely output the URL in a script tag -->
+    <script id="jquery-url" type="application/json">{{ url_for('.static', filename='jquery-3.6.2.js') | tojson }}</script>
+
+    <!-- Your other scripts can now retrieve the URL safely -->
+    <script>
+      // Retrieve the URL using the element ID
+      var jqueryUrl = JSON.parse(document.getElementById('jquery-url').textContent);
+      // Create a script tag dynamically and set its src to the retrieved URL
+      var script = document.createElement('script');
+      script.src = jqueryUrl;
+      document.body.appendChild(script);
+    </script>
+
     {% block scripts %}{% endblock %}
   </body>
 </html>
